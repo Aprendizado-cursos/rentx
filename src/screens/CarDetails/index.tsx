@@ -24,7 +24,9 @@ import {
     Price,
     About,
     Accessories,
+    Footer,
 } from "./styles";
+import { Button } from "../../components/Button";
 
 interface CarDetailsProps {}
 
@@ -64,6 +66,9 @@ export function CarDetails({}: CarDetailsProps) {
                     Sevilla. É um belíssimo carro para quem gosta de acelerar.
                 </About>
             </Content>
+            <Footer>
+                <Button title="Confirmar" color=""></Button>
+            </Footer>
         </Container>
     );
 }
