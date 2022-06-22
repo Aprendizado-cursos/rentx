@@ -37,8 +37,9 @@ import {
     RentalPriceLabel,
     RentalPriceQuota,
     RentalPriceDetails,
-    RentalPriceTotal
+    RentalPriceTotal,
 } from "./styles";
+import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
 
 interface SchedulingDetailsProps {}
 
@@ -47,10 +48,20 @@ export function SchedulingDetails({}: SchedulingDetailsProps) {
 
     const thumb = "https://www.pngmart.com/files/1/Audi-RS5-Red-PNG.png";
 
+    const navigation = useNavigation<NavigationProp<ParamListBase>>();
+
+    function handleReturn() {
+        navigation.navigate("Scheduling");
+    }
+
+    function handleConfirmScheduling() {
+        navigation.navigate("SchedulingComplete");
+    }
+
     return (
         <Container>
             <Header>
-                <BackButton onPress={() => {}}></BackButton>
+                <BackButton onPress={handleReturn}></BackButton>
             </Header>
             <CarImages>
                 <ImageSlider imagesUrl={[thumb]}></ImageSlider>
@@ -98,7 +109,7 @@ export function SchedulingDetails({}: SchedulingDetailsProps) {
                 </RentalPrice>
             </Content>
             <Footer>
-                <Button title="Confirmar" color=""></Button>
+                <Button title="Alugar agora" onPress={handleConfirmScheduling} color={theme.colors.success}></Button>
             </Footer>
         </Container>
     );

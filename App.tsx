@@ -3,7 +3,7 @@ import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, useFonts } from "
 import AppLoading from "expo-app-loading";
 import React from "react";
 import { ThemeProvider } from "styled-components/native";
-import { SchedulingComplete } from "./src/screens/SchedulingComplete";
+import { Routes } from "./src/routes";
 import theme from "./src/styles/theme";
 
 export default function App() {
@@ -22,7 +22,7 @@ export default function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            <SchedulingComplete></SchedulingComplete>
+            <Routes></Routes>
         </ThemeProvider>
     );
 }

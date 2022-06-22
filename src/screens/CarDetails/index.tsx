@@ -27,16 +27,27 @@ import {
     Footer,
 } from "./styles";
 import { Button } from "../../components/Button";
+import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
 
 interface CarDetailsProps {}
 
 export function CarDetails({}: CarDetailsProps) {
     const thumb = "https://www.pngmart.com/files/1/Audi-RS5-Red-PNG.png";
 
+    const navigation = useNavigation<NavigationProp<ParamListBase>>();
+
+    function handleReturn() {
+        navigation.navigate("Home");
+    }
+
+    function handleConfirmScheduling() {
+        navigation.navigate("Scheduling");
+    }
+
     return (
         <Container>
             <Header>
-                <BackButton onPress={() => {}}></BackButton>
+                <BackButton onPress={handleReturn}></BackButton>
             </Header>
             <CarImages>
                 <ImageSlider imagesUrl={[thumb]}></ImageSlider>
@@ -67,7 +78,7 @@ export function CarDetails({}: CarDetailsProps) {
                 </About>
             </Content>
             <Footer>
-                <Button title="Confirmar" color=""></Button>
+                <Button title="Confirmar" onPress={handleConfirmScheduling}></Button>
             </Footer>
         </Container>
     );

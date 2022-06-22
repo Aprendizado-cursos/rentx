@@ -10,6 +10,6 @@ export const Container = styled.TouchableOpacity<{ color?: string }>`
 `;
 export const Title = styled.Text`
     font-family: ${({ theme }) => theme.fonts.primary_500};
-    color: ${({ theme }) => theme.colors.shape};
+    color: ${({ theme }) => theme.colors.background_secondary};
     font-size: ${RFValue(15)}px;
 `;
