@@ -6,6 +6,7 @@ import ArrowSvg from "../../assets/arrow.svg";
 import { Container, Header, Title, RentalPeriod, DateInfo, DateTitle, DateValue, Content, Footer } from "./styles";
 import { StatusBar } from "react-native";
 import { Button } from "../../components/Button";
+import { Calendar } from "../../components/Calendar";
 
 interface SchedulingProps {}
 
@@ -32,7 +33,9 @@ export function Scheduling({}: SchedulingProps) {
                     </DateInfo>
                 </RentalPeriod>
             </Header>
-            <Content></Content>
+            <Content>
+                <Calendar></Calendar>
+            </Content>
             <Footer>
                 <Button title="Confirmar"></Button>
             </Footer>
