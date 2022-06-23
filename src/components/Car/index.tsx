@@ -1,20 +1,15 @@
 import React from "react";
 import { TouchableOpacityProps } from "react-native";
 import GasolineSvg from "../../assets/gasoline.svg";
+import { CarDTO } from "../../dto/Car.dto";
 
 import { Container, Details, Brand, Name, About, Rent, Period, Price, Type, CarImage } from "./styles";
 
 interface CarProps extends TouchableOpacityProps {
-    brand: string;
-    name: string;
-    rent: {
-        price: number;
-        period: string;
-    };
-    thumbnail: string;
+    data: CarDTO;
 }
 
-export function Car({ brand, name, rent, thumbnail, ...rest }: CarProps) {
+export function Car({ data: { brand, name, rent, thumbnail }, ...rest }: CarProps) {
     return (
         <Container {...rest}>
             <Details>
