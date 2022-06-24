@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Accessory } from "../../components/Accessory";
 import { BackButton } from "../../components/BackButton";
 import { ImageSlider } from "../../components/ImageSlider";
@@ -39,14 +39,28 @@ import {
     RentalPriceDetails,
     RentalPriceTotal,
 } from "./styles";
-import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
+import { NavigationProp, ParamListBase, useNavigation, useRoute } from "@react-navigation/native";
+import { CarDTO } from "../../dto/Car.dto";
+import { getAccessoryIcon } from "../../utils/getAccessoryIcon";
+import { RentalPeriod as IRentalPeriod } from "../Scheduling";
+import { differenceInDays } from "date-fns";
+import { api } from "../../services/api";
+import { Alert } from "react-native";
 
 interface SchedulingDetailsProps {}
+
+interface Params {
+    car: CarDTO;
+    dates: IRentalPeriod;
+}
 
 export function SchedulingDetails({}: SchedulingDetailsProps) {
     const theme = useTheme();
 
-    const thumb = "https://www.pngmart.com/files/1/Audi-RS5-Red-PNG.png";
+    const routes = useRoute();
+    const { car, dates } = routes.params as Params;
+
+    const days = useMemo(() => differenceInDays(new Date(dates.end), new Date(dates.start)), [dates]);
 
     const navigation = useNavigation<NavigationProp<ParamListBase>>();
 
@@ -54,8 +68,25 @@ export function SchedulingDetails({}: SchedulingDetailsProps) {
         navigation.goBack();
     }
 
-    function handleConfirmScheduling() {
-        navigation.navigate("SchedulingComplete");
+    async function handleConfirmScheduling() {
+        const { data } = await api.get(`schedules_bycars/${car.id}`);
+
+        const unavailable_dates = [
+            ...data.unavailable_dates,
+            ...dates.interval,
+        ];
+
+        api.put(`schedules_bycars/${car.id}`, {
+            id: car.id,
+            unavailable_dates,
+        })
+            .then(() => {
+                navigation.navigate("SchedulingComplete");
+            })
+            .catch((err) => {
+                console.log(err);
+                Alert.alert("Não foi possível realizar seu aluguel");
+            });
     }
 
     return (
@@ -64,26 +95,26 @@ export function SchedulingDetails({}: SchedulingDetailsProps) {
                 <BackButton onPress={handleReturn}></BackButton>
             </Header>
             <CarImages>
-                <ImageSlider imagesUrl={[thumb]}></ImageSlider>
+                <ImageSlider imagesUrl={car.photos}></ImageSlider>
             </CarImages>
             <Content>
                 <Details>
                     <Description>
-                        <Brand>AUDI</Brand>
-                        <Name>Huracan</Name>
+                        <Brand>{car.brand}</Brand>
+                        <Name>{car.name}</Name>
                     </Description>
                     <Rent>
-                        <Period>AO DIA</Period>
-                        <Price>R$ 120,00</Price>
+                        <Period>{car.rent.period}</Period>
+                        <Price>R$ {car.rent.price}</Price>
                     </Rent>
                 </Details>
                 <Accessories>
-                    <Accessory name="380Km/h" icon={SpeedSvg}></Accessory>
-                    <Accessory name="3.2s" icon={AccelerationSvg}></Accessory>
-                    <Accessory name="800HP" icon={ForceSvg}></Accessory>
-                    <Accessory name="Gasolina" icon={GasolineSvg}></Accessory>
-                    <Accessory name="Auto" icon={ExchangeSvg}></Accessory>
-                    <Accessory name="2 pessoas" icon={PeopleSvg}></Accessory>
+                    {car.accessories.map((accessory) => (
+                        <Accessory
+                            key={accessory.type}
+                            name={accessory.name}
+                            icon={getAccessoryIcon(accessory.type)}></Accessory>
+                    ))}
                 </Accessories>
 
                 <RentalPeriod>
@@ -92,19 +123,19 @@ export function SchedulingDetails({}: SchedulingDetailsProps) {
                     </CalendarIcon>
                     <DateInfo>
                         <DateTitle>DE</DateTitle>
-                        <DateValue>18/06/2022</DateValue>
+                        <DateValue>{dates.startFormatted}</DateValue>
                     </DateInfo>
                     <Feather name="chevron-right" size={RFValue(10)} color={theme.colors.text}></Feather>
                     <DateInfo>
                         <DateTitle>DE</DateTitle>
-                        <DateValue>18/06/2022</DateValue>
+                        <DateValue>{dates.endFormatted}</DateValue>
                     </DateInfo>
                 </RentalPeriod>
                 <RentalPrice>
                     <RentalPriceLabel>TOTAL</RentalPriceLabel>
                     <RentalPriceDetails>
-                        <RentalPriceQuota>R$ 580 x3 diárias</RentalPriceQuota>
-                        <RentalPriceTotal>R$ 2.900</RentalPriceTotal>
+                        <RentalPriceQuota>R$ {`${car.rent.price} x${days} diárias`}</RentalPriceQuota>
+                        <RentalPriceTotal>R$ {`${car.rent.price * days}`}</RentalPriceTotal>
                     </RentalPriceDetails>
                 </RentalPrice>
             </Content>

@@ -14,7 +14,7 @@ export function SchedulingComplete({}: SchedulingCompleteProps) {
     const navigation = useNavigation<NavigationProp<ParamListBase>>();
 
     function handleReturn() {
-        navigation.goBack();
+        navigation.navigate("Home");
     }
 
     return (

@@ -16,11 +16,12 @@ import { CarDTO } from "../../dto/Car.dto";
 
 interface SchedulingProps {}
 
-interface RentalPeriod {
+export interface RentalPeriod {
     start: number;
     startFormatted: string;
     end: number;
     endFormatted: string;
+    interval: string[];
 }
 
 interface Params {
@@ -46,7 +47,7 @@ export function Scheduling({}: SchedulingProps) {
         if (!rentalPeriod.start || !rentalPeriod.end) {
             Alert.alert("Selecione o intervalo para alugar.");
         } else {
-            navigation.navigate("SchedulingDetails", { car, dates: Object.keys(markedDates || {}) });
+            navigation.navigate("SchedulingDetails", { car, dates: rentalPeriod });
         }
     }
 
@@ -71,6 +72,7 @@ export function Scheduling({}: SchedulingProps) {
             end: end.timestamp,
             startFormatted: format(getPlatformDate(new Date(firstDate)), "dd/MM/yyyy"),
             endFormatted: format(getPlatformDate(new Date(endDate)), "dd/MM/yyyy"),
+            interval: Object.keys(interval),
         });
     }
 
