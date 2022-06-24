@@ -40,7 +40,7 @@ export function CarDetails({}: CarDetailsProps) {
     }
 
     function handleConfirmScheduling() {
-        navigation.navigate("Scheduling");
+        navigation.navigate("Scheduling", { car });
     }
 
     return (
