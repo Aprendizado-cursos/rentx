@@ -51,7 +51,7 @@ export function SchedulingDetails({}: SchedulingDetailsProps) {
     const navigation = useNavigation<NavigationProp<ParamListBase>>();
 
     function handleReturn() {
-        navigation.navigate("Scheduling");
+        navigation.goBack();
     }
 
     function handleConfirmScheduling() {
