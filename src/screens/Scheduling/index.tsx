@@ -5,14 +5,14 @@ import { BackButton } from "../../components/BackButton";
 
 import { NavigationProp, ParamListBase, useNavigation, useRoute } from "@react-navigation/native";
 import { format } from "date-fns";
-import { Alert, StatusBar } from "react-native";
+import { StatusBar } from "react-native";
 import { CalendarProps } from "react-native-calendars";
 import { Button } from "../../components/Button";
 import { Calendar, DayProps } from "../../components/Calendar";
 import { generateInterval } from "../../components/Calendar/generateInterval";
+import { CarDTO } from "../../dto/Car.dto";
 import { getPlatformDate } from "../../utils/getPlatformDate";
 import { Container, Content, DateInfo, DateTitle, DateValue, Footer, Header, RentalPeriod, Title } from "./styles";
-import { CarDTO } from "../../dto/Car.dto";
 
 interface SchedulingProps {}
 
@@ -44,11 +44,7 @@ export function Scheduling({}: SchedulingProps) {
     }
 
     function handleConfirmScheduling() {
-        if (!rentalPeriod.start || !rentalPeriod.end) {
-            Alert.alert("Selecione o intervalo para alugar.");
-        } else {
-            navigation.navigate("SchedulingDetails", { car, dates: rentalPeriod });
-        }
+        navigation.navigate("SchedulingDetails", { car, dates: rentalPeriod });
     }
 
     function handleChangeDate(date: DayProps) {
@@ -100,7 +96,10 @@ export function Scheduling({}: SchedulingProps) {
                 <Calendar markedDates={markedDates} onDayPress={handleChangeDate}></Calendar>
             </Content>
             <Footer>
-                <Button title="Confirmar" onPress={handleConfirmScheduling}></Button>
+                <Button
+                    title="Confirmar"
+                    onPress={handleConfirmScheduling}
+                    disabled={!rentalPeriod.startFormatted}></Button>
             </Footer>
         </Container>
     );

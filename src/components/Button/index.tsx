@@ -3,15 +3,14 @@ import { TouchableOpacityProps } from "react-native";
 
 import { Container, Title } from "./styles";
 
-interface ButtonProps extends TouchableOpacityProps{
+interface ButtonProps extends TouchableOpacityProps {
     title: string;
     color?: string;
-    // onPress?:()=>void
 }
 
-export function Button({ title, color, ...rest }: ButtonProps) {
+export function Button({ title, color, disabled, ...rest }: ButtonProps) {
     return (
-        <Container color={color} {...rest}>
+        <Container color={color} disabled={disabled} style={{ opacity: disabled ? 0.5 : 1 }} {...rest}>
             <Title>{title}</Title>
         </Container>
     );
