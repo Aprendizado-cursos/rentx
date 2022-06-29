@@ -71,10 +71,12 @@ export function SchedulingDetails({}: SchedulingDetailsProps) {
     async function handleConfirmScheduling() {
         const { data } = await api.get(`schedules_bycars/${car.id}`);
 
-        const unavailable_dates = [
-            ...data.unavailable_dates,
-            ...dates.interval,
-        ];
+        const unavailable_dates = [...data.unavailable_dates, ...dates.interval];
+
+        await api.post(`schedules_byuser`, {
+            car,
+            user_id: 1,
+        });
 
         api.put(`schedules_bycars/${car.id}`, {
             id: car.id,
