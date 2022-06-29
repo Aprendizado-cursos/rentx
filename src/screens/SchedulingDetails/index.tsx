@@ -76,6 +76,8 @@ export function SchedulingDetails({}: SchedulingDetailsProps) {
         await api.post(`schedules_byuser`, {
             car,
             user_id: 1,
+            startDate: dates.startFormatted,
+            endDate: dates.endFormatted,
         });
 
         api.put(`schedules_bycars/${car.id}`, {
