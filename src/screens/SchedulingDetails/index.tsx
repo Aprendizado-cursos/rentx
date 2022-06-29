@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Accessory } from "../../components/Accessory";
 import { BackButton } from "../../components/BackButton";
 import { ImageSlider } from "../../components/ImageSlider";
@@ -56,6 +56,7 @@ interface Params {
 
 export function SchedulingDetails({}: SchedulingDetailsProps) {
     const theme = useTheme();
+    const [loading, setLoading] = useState(false);
 
     const routes = useRoute();
     const { car, dates } = routes.params as Params;
@@ -69,6 +70,7 @@ export function SchedulingDetails({}: SchedulingDetailsProps) {
     }
 
     async function handleConfirmScheduling() {
+        setLoading(true);
         const { data } = await api.get(`schedules_bycars/${car.id}`);
 
         const unavailable_dates = [...data.unavailable_dates, ...dates.interval];
@@ -89,6 +91,7 @@ export function SchedulingDetails({}: SchedulingDetailsProps) {
             })
             .catch((err) => {
                 console.log(err);
+                setLoading(false);
                 Alert.alert("Não foi possível realizar seu aluguel");
             });
     }
@@ -144,7 +147,12 @@ export function SchedulingDetails({}: SchedulingDetailsProps) {
                 </RentalPrice>
             </Content>
             <Footer>
-                <Button title="Alugar agora" onPress={handleConfirmScheduling} color={theme.colors.success}></Button>
+                <Button
+                    title="Alugar agora"
+                    onPress={handleConfirmScheduling}
+                    color={theme.colors.success}
+                    loading={loading}
+                    disabled={loading}></Button>
             </Footer>
         </Container>
     );
