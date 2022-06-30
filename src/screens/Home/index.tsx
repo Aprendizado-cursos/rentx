@@ -51,7 +51,7 @@ export function Home({}: HomeProps) {
             <Header>
                 <HeaderContent>
                     <Logo height={RFValue(12)} width={RFValue(118)}></Logo>
-                    <TotalCars>Total de 12 carros</TotalCars>
+                    <TotalCars>{`Total de ${cars.length} carros`}</TotalCars>
                 </HeaderContent>
             </Header>
             {isFetching ? (
