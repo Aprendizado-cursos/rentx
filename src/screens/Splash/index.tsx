@@ -1,3 +1,4 @@
+import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import { Button, Dimensions, StatusBar, StyleSheet } from "react-native";
 import Animated, {
@@ -7,6 +8,7 @@ import Animated, {
     Easing,
     interpolate,
     Extrapolate,
+    runOnJS,
 } from "react-native-reanimated";
 import BrandSvg from "../../assets/brand.svg";
 import LogoSvg from "../../assets/logo.svg";
@@ -16,6 +18,7 @@ interface SplashProps {}
 
 export function Splash({}: SplashProps) {
     const splashAnimation = useSharedValue(0); //0->50
+    const navigation = useNavigation<NavigationProp<ParamListBase>>();
 
     const brandStyle = useAnimatedStyle(() => {
         return {
@@ -31,8 +34,15 @@ export function Splash({}: SplashProps) {
         };
     });
 
+    function startApp() {
+        navigation.navigate("Home");
+    }
+
     useEffect(() => {
-        splashAnimation.value = withTiming(50, { duration: 1000 });
+        splashAnimation.value = withTiming(50, { duration: 1000 }, () => {
+            "worklet";
+            runOnJS(startApp)();
+        });
     }, []);
 
     return (
