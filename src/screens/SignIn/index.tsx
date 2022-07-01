@@ -7,6 +7,7 @@ import { PasswordInput } from "../../components/PasswordInput";
 import * as yup from "yup";
 
 import { Container, Footer, Form, Header, SubTitle, Title } from "./styles";
+import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
 
 interface SignInProps {}
 
@@ -15,6 +16,7 @@ export function SignIn({}: SignInProps) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const navigation = useNavigation<NavigationProp<ParamListBase>>();
     const theme = useTheme();
 
     async function handleSign() {
@@ -37,6 +39,10 @@ export function SignIn({}: SignInProps) {
 
             setIsLoading(false);
         }
+    }
+
+    function handleNewAccount() {
+        navigation.navigate("SignUpFirstStep");
     }
 
     return (
@@ -72,7 +78,7 @@ export function SignIn({}: SignInProps) {
                         <Button
                             light
                             title="Criar conta gratuita"
-                            onPress={() => {}}
+                            onPress={handleNewAccount}
                             color={theme.colors.background_secondary}
                         />
                     </Footer>
