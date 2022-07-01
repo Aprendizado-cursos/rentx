@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { Keyboard, KeyboardAvoidingView, StatusBar, TouchableWithoutFeedback } from "react-native";
 import { useTheme } from "styled-components/native";
 import { Button } from "../../components/Button";
@@ -10,6 +10,9 @@ import { Container, Footer, Form, Header, SubTitle, Title } from "./styles";
 interface SignInProps {}
 
 export function SignIn({}: SignInProps) {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
     const theme = useTheme();
 
     return (
@@ -29,8 +32,15 @@ export function SignIn({}: SignInProps) {
                             keyboardType="email-address"
                             autoCorrect={false}
                             autoCapitalize="none"
+                            onChangeText={setEmail}
+                            value={email}
                         />
-                        <PasswordInput iconName="lock" placeholder="Senha" />
+                        <PasswordInput
+                            iconName="lock"
+                            placeholder="Senha"
+                            onChangeText={setPassword}
+                            value={password}
+                        />
                     </Form>
 
                     <Footer>
