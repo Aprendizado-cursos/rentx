@@ -8,8 +8,8 @@ export const Container = styled.TouchableOpacity<{ color?: string }>`
     justify-content: center;
     background-color: ${({ color, theme }) => (color ? color : theme.colors.main)};
 `;
-export const Title = styled.Text`
+export const Title = styled.Text<{ light?: boolean }>`
     font-family: ${({ theme }) => theme.fonts.primary_500};
-    color: ${({ theme }) => theme.colors.background_secondary};
+    color: ${({ theme, light }) => (light ? theme.colors.header : theme.colors.background_secondary)};
     font-size: ${RFValue(15)}px;
 `;
