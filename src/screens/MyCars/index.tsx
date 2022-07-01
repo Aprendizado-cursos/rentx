@@ -1,3 +1,4 @@
+import { AntDesign } from "@expo/vector-icons";
 import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { FlatList, StatusBar } from "react-native";
@@ -6,24 +7,23 @@ import { BackButton } from "../../components/BackButton";
 import { Car } from "../../components/Car";
 import { CarDTO } from "../../dto/Car.dto";
 import { api } from "../../services/api";
-import { AntDesign } from "@expo/vector-icons";
 
+import { LoadAnimation } from "../../components/LoadAnimation";
 import {
-    Container,
-    Header,
-    SubTitle,
-    Title,
-    Content,
     Appointments,
     AppointmentsQuantity,
     AppointmentsTitle,
-    CarWrapper,
     CarFooter,
+    CarFooterDate,
     CarFooterPeriod,
     CarFooterTitle,
-    CarFooterDate,
+    CarWrapper,
+    Container,
+    Content,
+    Header,
+    SubTitle,
+    Title,
 } from "./styles";
-import { Loading } from "../../components/Loading";
 
 interface MyCarsProps {}
 
@@ -72,7 +72,7 @@ export function MyCars({}: MyCarsProps) {
                 <SubTitle>Conforto segurança e praticidade</SubTitle>
             </Header>
             {loading ? (
-                <Loading></Loading>
+                <LoadAnimation></LoadAnimation>
             ) : (
                 <Content>
                     <Appointments>

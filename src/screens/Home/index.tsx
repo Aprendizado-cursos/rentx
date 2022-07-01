@@ -1,15 +1,20 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
-import { StatusBar, StyleSheet, TouchableOpacity } from "react-native";
+import { BackHandler, StatusBar, StyleSheet, TouchableOpacity } from "react-native";
 
 import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
 import { PanGestureHandler } from "react-native-gesture-handler";
-import Animated, { useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
+import Animated, {
+    useAnimatedGestureHandler,
+    useAnimatedStyle,
+    useSharedValue,
+    withSpring,
+} from "react-native-reanimated";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useTheme } from "styled-components";
 import Logo from "../../assets/logo.svg";
 import { Car } from "../../components/Car";
-import { Loading } from "../../components/Loading";
+import { LoadAnimation } from "../../components/LoadAnimation";
 import { CarDTO } from "../../dto/Car.dto";
 import { api } from "../../services/api";
 import { CarList, Container, Header, HeaderContent, TotalCars } from "./styles";
@@ -73,17 +78,23 @@ export function Home({}: HomeProps) {
         fetchCars();
     }, []);
 
+    useEffect(() => {
+        BackHandler.addEventListener("hardwareBackPress", () => {
+            return true;
+        });
+    }, []);
+
     return (
         <Container>
             <StatusBar barStyle="light-content" translucent backgroundColor="transparent"></StatusBar>
             <Header>
                 <HeaderContent>
                     <Logo height={RFValue(12)} width={RFValue(118)}></Logo>
-                    <TotalCars>{`Total de ${cars.length} carros`}</TotalCars>
+                    {!isFetching && <TotalCars>{`Total de ${cars.length} carros`}</TotalCars>}
                 </HeaderContent>
             </Header>
             {isFetching ? (
-                <Loading></Loading>
+                <LoadAnimation />
             ) : (
                 <CarList
                     data={cars}
