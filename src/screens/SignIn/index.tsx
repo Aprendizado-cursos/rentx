@@ -1,19 +1,43 @@
 import { useState } from "react";
-import { Keyboard, KeyboardAvoidingView, StatusBar, TouchableWithoutFeedback } from "react-native";
+import { Alert, Keyboard, KeyboardAvoidingView, StatusBar, TouchableWithoutFeedback } from "react-native";
 import { useTheme } from "styled-components/native";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { PasswordInput } from "../../components/PasswordInput";
+import * as yup from "yup";
 
 import { Container, Footer, Form, Header, SubTitle, Title } from "./styles";
 
 interface SignInProps {}
 
 export function SignIn({}: SignInProps) {
+    const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const theme = useTheme();
+
+    async function handleSign() {
+        try {
+            setIsLoading(true);
+            const schema = yup.object().shape({
+                email: yup.string().email("Digite um email válido").required("Email obrigatório"),
+                password: yup.string().required("Senha é obrigatória"),
+            });
+
+            await schema.validate({ email, password });
+            setIsLoading(false);
+        } catch (error) {
+            console.log(error);
+            if (error instanceof yup.ValidationError) {
+                Alert.alert("Opa", error.message);
+            } else {
+                Alert.alert("Opa", "Erro ao fazer login");
+            }
+
+            setIsLoading(false);
+        }
+    }
 
     return (
         <KeyboardAvoidingView behavior="position" enabled>
@@ -44,13 +68,11 @@ export function SignIn({}: SignInProps) {
                     </Form>
 
                     <Footer>
-                        <Button title="Login" onPress={() => {}} disabled={true} loading={false} />
+                        <Button title="Login" onPress={handleSign} disabled={isLoading} loading={isLoading} />
                         <Button
                             light
                             title="Criar conta gratuita"
                             onPress={() => {}}
-                            disabled={true}
-                            loading={false}
                             color={theme.colors.background_secondary}
                         />
                     </Footer>
