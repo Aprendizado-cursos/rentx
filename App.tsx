@@ -5,6 +5,7 @@ import React from "react";
 import { ThemeProvider } from "styled-components/native";
 import { Routes } from "./src/routes";
 import theme from "./src/styles/theme";
+import 'react-native-gesture-handler';
 
 export default function App() {
     let [fontsLoaded] = useFonts({
