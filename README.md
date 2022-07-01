@@ -1,9 +1,7 @@
-<div align="center" id="top"> 
+<div align="center" id="top">
   <img src="./.github/app.gif" alt="Rentx" />
 
   &#xa0;
-
-  <!-- <a href="https://rentx.netlify.com">Demo</a> -->
 </div>
 
 <h1 align="center">Rentx</h1>
@@ -33,7 +31,7 @@
 <hr> -->
 
 <p align="center">
-  <a href="#dart-sobre">Sobre</a> &#xa0; | &#xa0; 
+  <a href="#dart-sobre">Sobre</a> &#xa0; | &#xa0;
   <a href="#sparkles-funcionalidades">Funcionalidades</a> &#xa0; | &#xa0;
   <a href="#rocket-tecnologias">Tecnologias</a> &#xa0; | &#xa0;
   <a href="#white_check_mark-pré-requisitos">Pré requisitos</a> &#xa0; | &#xa0;
@@ -46,13 +44,12 @@
 
 ## :dart: Sobre ##
 
-Sobre o seu projeto
+Projeto feito durante o curso Ignite React Native pela Rocketseat para o aprendizado de React Native criando um app para locação de carros.
 
 ## :sparkles: Funcionalidades ##
 
-:heavy_check_mark: Funcionalidade 1;\
-:heavy_check_mark: Funcionalidade 2;\
-:heavy_check_mark: Funcionalidade 3;
+:heavy_check_mark: Alugar carros cadastrados;\
+:heavy_check_mark: Ver alugueis feitos;
 
 ## :rocket: Tecnologias ##
 
@@ -89,7 +86,6 @@ $ yarn start
 ## :memo: Licença ##
 
 Este projeto está sob licença MIT. Veja o arquivo [LICENSE](LICENSE.md) para mais detalhes.
-
 
 Feito com :heart: por <a href="https://github.com/leonardopn" target="_blank">Leonardo Petta do Nascimento</a>
 
