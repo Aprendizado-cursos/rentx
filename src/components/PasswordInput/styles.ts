@@ -3,7 +3,6 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
     flex-direction: row;
-    margin-bottom: 8px;
 `;
 
 export const IconContainer = styled.View`
@@ -12,7 +11,6 @@ export const IconContainer = styled.View`
     width: 55px;
     justify-content: center;
     align-items: center;
-    margin-right: 2px;
 `;
 
 export const InputText = styled.TextInput`
@@ -22,4 +20,7 @@ export const InputText = styled.TextInput`
     font-family: ${({ theme }) => theme.fonts.primary_400};
     font-size: ${RFValue(15)}px;
     padding: 0 23px;
+    margin-left: 2px;
 `;
+
+export const ChangePasswordVisibilityButton = styled.TouchableOpacity``;
