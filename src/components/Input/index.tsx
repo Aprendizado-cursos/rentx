@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Container } from "./styles";
+import { Container, IconContainer, InputText } from "./styles";
 import { Feather } from "@expo/vector-icons";
 import { useTheme } from "styled-components/native";
 import { TextInputProps } from "react-native";
@@ -14,7 +14,11 @@ export function Input({ iconName, ...rest }: InputProps) {
 
     return (
         <Container>
-            <Feather name={iconName} size={24} color={theme.colors.text_detail}></Feather>
+            <IconContainer>
+                <Feather name={iconName} size={24} color={theme.colors.text_detail}></Feather>
+            </IconContainer>
+
+            <InputText {...rest}></InputText>
         </Container>
     );
 }
