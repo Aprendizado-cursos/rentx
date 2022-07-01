@@ -3,8 +3,9 @@ import { StatusBar } from "react-native";
 import { color } from "react-native-reanimated";
 import { useTheme } from "styled-components/native";
 import { Button } from "../../components/Button";
+import { Input } from "../../components/Input";
 
-import { Container, Footer, Header, SubTitle, Title } from "./styles";
+import { Container, Footer, Form, Header, SubTitle, Title } from "./styles";
 
 interface SignInProps {}
 
@@ -18,9 +19,21 @@ export function SignIn({}: SignInProps) {
                 <Title>Estamos{"\n"}quase lá.</Title>
                 <SubTitle>Faça seu login para começar{"\n"}um experiência incrível</SubTitle>
             </Header>
+
+            <Form>
+                <Input iconName="mail"></Input>
+            </Form>
+
             <Footer>
                 <Button title="Login" onPress={() => {}} disabled={true} loading={false} />
-                <Button light title="Criar conta gratuita" onPress={() => {}} disabled={true} loading={false} color={theme.colors.background_secondary}/>
+                <Button
+                    light
+                    title="Criar conta gratuita"
+                    onPress={() => {}}
+                    disabled={true}
+                    loading={false}
+                    color={theme.colors.background_secondary}
+                />
             </Footer>
         </Container>
     );
