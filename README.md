@@ -77,10 +77,14 @@ $ cd rentx
 # Instale as dependências
 $ yarn
 
+# Inicia a api com json-server
+$ yarn server
+
 # Para iniciar o projeto
 $ yarn start
 
-# O app vai inicializar em <http://localhost:3000>
+# O Developer tools vai inicializar em <http://localhost:19002>
+# O Metro vai inicializar em <http://localhost:19000>
 ```
 
 ## :memo: Licença ##
