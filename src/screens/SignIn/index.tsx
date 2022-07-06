@@ -8,6 +8,7 @@ import * as yup from "yup";
 
 import { Container, Footer, Form, Header, SubTitle, Title } from "./styles";
 import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
+import { useAuth } from "../../hooks/auth";
 
 interface SignInProps {}
 
@@ -15,6 +16,7 @@ export function SignIn({}: SignInProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const { signIn } = useAuth();
 
     const navigation = useNavigation<NavigationProp<ParamListBase>>();
     const theme = useTheme();
@@ -28,6 +30,7 @@ export function SignIn({}: SignInProps) {
             });
 
             await schema.validate({ email, password });
+            await signIn({ email, password });
             setIsLoading(false);
         } catch (error) {
             console.log(error);
