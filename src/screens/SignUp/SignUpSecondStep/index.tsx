@@ -6,10 +6,10 @@ import { useTheme } from "styled-components";
 import { BackButton } from "../../../components/BackButton";
 import { Bullet } from "../../../components/Bullet";
 import { Button } from "../../../components/Button";
-import { Input } from "../../../components/Input";
 import { PasswordInput } from "../../../components/PasswordInput";
+import { api } from "../../../services/api";
 
-import { Container, Header, Steps, SubTitle, Title, Form, FormTitle } from "./styles";
+import { Container, Form, FormTitle, Header, Steps, SubTitle, Title } from "./styles";
 
 interface Params {
     user: { name: string; email: string; driveLicense: string };
@@ -31,7 +31,7 @@ export function SignUpSecondStep({}: SignUpSecondStepProps) {
 
     const { user } = params as Params;
 
-    function handleRegister() {
+    async function handleRegister() {
         if (!password) {
             Alert.alert("Opa", "Senha obrigatória");
             return;
@@ -42,11 +42,18 @@ export function SignUpSecondStep({}: SignUpSecondStepProps) {
             return;
         }
 
-        navigation.navigate("Confirmation", {
-            title: "Conta Criada!",
-            message: `Agora é só fazer login \ne aproveitar`,
-            nextScreenRoute: "SignIn",
-        });
+        api.post("users", { name: user.name, email: user.email, password, driver_license: user.driveLicense })
+            .then(() => {
+                navigation.navigate("Confirmation", {
+                    title: "Conta Criada!",
+                    message: `Agora é só fazer login \ne aproveitar`,
+                    nextScreenRoute: "SignIn",
+                });
+            })
+            .catch((erro) => {
+                console.log(erro);
+                Alert.alert("Opa", "Erro ao criar conta");
+            });
     }
 
     return (
