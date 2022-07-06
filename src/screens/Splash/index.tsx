@@ -35,7 +35,7 @@ export function Splash({}: SplashProps) {
     });
 
     function startApp() {
-        navigation.navigate("Home");
+        navigation.navigate("SignIn");
     }
 
     useEffect(() => {

@@ -78,12 +78,6 @@ export function Home({}: HomeProps) {
         fetchCars();
     }, []);
 
-    useEffect(() => {
-        BackHandler.addEventListener("hardwareBackPress", () => {
-            return true;
-        });
-    }, []);
-
     return (
         <Container>
             <StatusBar barStyle="light-content" translucent backgroundColor="transparent"></StatusBar>
