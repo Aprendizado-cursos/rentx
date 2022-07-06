@@ -2,24 +2,22 @@ import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/
 import React from "react";
 import { Keyboard, KeyboardAvoidingView } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { useTheme } from "styled-components";
 import { BackButton } from "../../../components/BackButton";
 import { Bullet } from "../../../components/Bullet";
 import { Button } from "../../../components/Button";
 import { Input } from "../../../components/Input";
+import { PasswordInput } from "../../../components/PasswordInput";
 
 import { Container, Header, Steps, SubTitle, Title, Form, FormTitle } from "./styles";
 
-interface SignUpFirstStepProps {}
+interface SignUpSecondStepProps {}
 
-export function SignUpFirstStep({}: SignUpFirstStepProps) {
+export function SignUpSecondStep({}: SignUpSecondStepProps) {
     const navigation = useNavigation<NavigationProp<ParamListBase>>();
-
+    const theme = useTheme();
     function handleGoBack() {
         navigation.goBack();
-    }
-
-    function handleNext() {
-        navigation.navigate("SignUpSecondStep");
     }
 
     return (
@@ -36,12 +34,11 @@ export function SignUpFirstStep({}: SignUpFirstStepProps) {
                 <Title>Crie sua{"\n"}conta.</Title>
                 <SubTitle>Faça seu cadastro de{"\n"}forma rápida e fácil.</SubTitle>
                 <Form>
-                    <FormTitle>1. Dados</FormTitle>
-                    <Input iconName="user" placeholder="Nome" />
-                    <Input iconName="mail" placeholder="Email" keyboardType="email-address" />
-                    <Input iconName="credit-card" placeholder="CNH" keyboardType="numeric"></Input>
+                    <FormTitle>2. Senha</FormTitle>
+                    <PasswordInput iconName="lock" placeholder="Senha" />
+                    <PasswordInput iconName="lock" placeholder="Repetir senha" />
                 </Form>
-                <Button title="Próximo" onPress={handleNext}></Button>
+                <Button title="Cadastrar" color={theme.colors.success}></Button>
             </Container>
         </KeyboardAvoidingView>
     );
