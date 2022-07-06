@@ -41,6 +41,12 @@ export function SignUpSecondStep({}: SignUpSecondStepProps) {
             Alert.alert("Opa", "Senhas não conferem");
             return;
         }
+
+        navigation.navigate("Confirmation", {
+            title: "Conta Criada!",
+            message: `Agora é só fazer login \ne aproveitar`,
+            nextScreenRoute: "SignIn",
+        });
     }
 
     return (

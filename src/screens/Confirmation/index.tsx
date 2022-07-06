@@ -4,29 +4,34 @@ import DoneSvg from "../../assets/done.svg";
 import { Container, Content, Title, Message, Footer } from "./styles";
 import { StatusBar, useWindowDimensions } from "react-native";
 import { ConfirmButton } from "../../components/ConfirmButton";
-import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
+import { NavigationProp, ParamListBase, useNavigation, useRoute } from "@react-navigation/native";
 
-interface SchedulingCompleteProps {}
+interface ParamsProps {
+    title: string;
+    message: string;
+    nextScreenRoute?: string;
+}
 
-export function SchedulingComplete({}: SchedulingCompleteProps) {
+export function Confirmation() {
     const { width } = useWindowDimensions();
+    const { params } = useRoute();
+    const { message, title, nextScreenRoute = "home" } = params as ParamsProps;
 
     const navigation = useNavigation<NavigationProp<ParamListBase>>();
 
     function handleReturn() {
-        navigation.navigate("Home");
+        navigation.navigate(nextScreenRoute);
     }
-
+    //Carro alugado!
+    //Agora você só precisa ir{"\n"} até uma concessionário da Rentx{"\n"} pegar o seu automóvel.
     return (
         <Container>
             <StatusBar barStyle="light-content" translucent backgroundColor="transparent"></StatusBar>
             <LogoSvg width={width}></LogoSvg>
             <Content>
                 <DoneSvg width={80} height={80}></DoneSvg>
-                <Title>Carro alugado!</Title>
-                <Message>
-                    Agora você só precisa ir{"\n"} até uma concessionário da Rentx{"\n"} pegar o seu automóvel.
-                </Message>
+                <Title>{title}</Title>
+                <Message>{message}</Message>
                 <Footer>
                     <ConfirmButton title="OK" onPress={handleReturn}></ConfirmButton>
                 </Footer>
