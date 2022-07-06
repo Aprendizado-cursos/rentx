@@ -10,7 +10,7 @@ interface CarProps extends TouchableOpacityProps {
     data: CarDTO;
 }
 
-export function Car({ data: { brand, name, rent, thumbnail, fuel_type }, ...rest }: CarProps) {
+export function Car({ data: { brand, name, period, price, thumbnail, fuel_type }, ...rest }: CarProps) {
     const MotorIcon = getAccessoryIcon(fuel_type);
 
     return (
@@ -20,8 +20,8 @@ export function Car({ data: { brand, name, rent, thumbnail, fuel_type }, ...rest
                 <Name>{name}</Name>
                 <About>
                     <Rent>
-                        <Period>{rent.period}</Period>
-                        <Price>R$ {rent.price}</Price>
+                        <Period>{period}</Period>
+                        <Price>R$ {price}</Price>
                     </Rent>
                     <Type>
                         <MotorIcon></MotorIcon>
