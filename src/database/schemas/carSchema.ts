@@ -1,30 +1,34 @@
 import { tableSchema } from "@nozbe/watermelondb";
 
-export const userSchema = tableSchema({
-    name: "users",
+export const carSchema = tableSchema({
+    name: "cars",
     columns: [
-        {
-            name: "user_id",
-            type: "string",
-        },
         {
             name: "name",
             type: "string",
         },
         {
-            name: "email",
+            name: "brand",
             type: "string",
         },
         {
-            name: "driver_license",
+            name: "about",
             type: "string",
         },
         {
-            name: "avatar",
+            name: "fuel_type",
             type: "string",
         },
         {
-            name: "token",
+            name: "period",
+            type: "string",
+        },
+        {
+            name: "price",
+            type: "number",
+        },
+        {
+            name: "thumbnail",
             type: "string",
         },
     ],
