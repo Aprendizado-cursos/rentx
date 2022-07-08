@@ -21,20 +21,22 @@ import {
     Section,
 } from "./styles";
 import { Input } from "../../components/Input";
-import { Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
+import { Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { PasswordInput } from "../../components/PasswordInput";
 import { useAuth } from "../../hooks/auth";
+import { Button } from "../../components/Button";
+import * as Yup from "yup";
 
 interface ProfileProps {}
 
 export function Profile({}: ProfileProps) {
-    const { user, singOut } = useAuth();
+    const { user, singOut, updateUser } = useAuth();
 
     const [option, setOption] = useState<"data-edit" | "password-edit">("data-edit");
     const [avatar, setAvatar] = useState(user.avatar);
     const [name, setName] = useState(user.name);
-    const [email, setEmail] = useState(user.email);
+    const [email] = useState(user.email);
     const [driverLicense, setDriverLicense] = useState(user.driver_license);
 
     const theme = useTheme();
@@ -66,6 +68,27 @@ export function Profile({}: ProfileProps) {
 
         if (result.uri) {
             setAvatar(result.uri);
+        }
+    }
+
+    async function handleProfileUpdate() {
+        try {
+            const schema = Yup.object().shape({
+                driverLicense: Yup.string().required("CNH obrigatória"),
+                name: Yup.string().required("Nome obrigatório"),
+            });
+
+            const data = { name, driverLicense };
+
+            await schema.validate(data);
+            await updateUser({ ...user, name, driver_license: driverLicense, avatar });
+            Alert.alert("Sucesso!", "Perfil atualizado com sucesso");
+        } catch (error) {
+            if (error instanceof Yup.ValidationError) {
+                Alert.alert("Opa", error.message);
+            } else {
+                Alert.alert("Opa", "Erro ao atualizar perfil");
+            }
         }
     }
 
@@ -103,14 +126,14 @@ export function Profile({}: ProfileProps) {
                                     iconName="user"
                                     placeholder="Nome"
                                     autoCorrect={false}
-                                    value={name}
+                                    defaultValue={name}
                                     onChangeText={setName}></Input>
                                 <Input iconName="mail" editable={false} defaultValue={email}></Input>
                                 <Input
                                     iconName="credit-card"
                                     placeholder="CNH"
                                     keyboardType="numeric"
-                                    value={driverLicense}
+                                    defaultValue={driverLicense}
                                     onChangeText={setDriverLicense}></Input>
                             </Section>
                         ) : (
@@ -120,6 +143,7 @@ export function Profile({}: ProfileProps) {
                                 <PasswordInput iconName="lock" placeholder="Nova senha"></PasswordInput>
                             </Section>
                         )}
+                        <Button title="Salvar alterações" onPress={handleProfileUpdate}></Button>
                     </Content>
                 </Container>
             </TouchableWithoutFeedback>
