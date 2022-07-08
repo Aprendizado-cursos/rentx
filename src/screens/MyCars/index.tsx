@@ -48,17 +48,23 @@ export function MyCars({}: MyCarsProps) {
     }
 
     useEffect(() => {
+        let isMounted = true;
+
         async function fetchCars() {
             try {
                 const response = await api.get("schedules_byuser?user_id=1");
-                setCars(response.data);
+                isMounted && setCars(response.data);
             } catch (error) {
                 console.log(error);
             } finally {
-                setLoading(false);
+                isMounted && setLoading(false);
             }
         }
         fetchCars();
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     return (

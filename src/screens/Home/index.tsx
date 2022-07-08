@@ -63,19 +63,25 @@ export function Home({}: HomeProps) {
     }
 
     useEffect(() => {
+        let isMounted = true;
+
         async function fetchCars() {
             try {
                 setIsFetching(true);
                 const { data } = await api.get<CarDTO[]>("cars");
-                setCars(data);
+                isMounted && setCars(data);
             } catch (error) {
                 console.error(error);
             } finally {
-                setIsFetching(false);
+                isMounted && setIsFetching(false);
             }
         }
 
         fetchCars();
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     return (
