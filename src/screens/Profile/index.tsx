@@ -1,19 +1,42 @@
 import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "styled-components/native";
 import { BackButton } from "../../components/BackButton";
 import Feather from "@expo/vector-icons/Feather";
 
-import { Container, Header, HeaderTop, HeaderTitle, LogoutButton, PhotoContainer, Photo, PhotoButton } from "./styles";
+import {
+    Container,
+    Header,
+    HeaderTop,
+    HeaderTitle,
+    LogoutButton,
+    PhotoContainer,
+    Photo,
+    PhotoButton,
+    Content,
+    ContentHeader,
+    Option,
+    OptionTitle,
+} from "./styles";
 
 interface ProfileProps {}
 
 export function Profile({}: ProfileProps) {
+    const [option, setOption] = useState<"data-edit" | "password-edit">("data-edit");
+
     const theme = useTheme();
     const navigation = useNavigation<NavigationProp<ParamListBase>>();
 
     function handleReturn() {
         navigation.goBack();
+    }
+
+    function handleOptionChange() {
+        if (option === "data-edit") {
+            setOption("password-edit");
+        } else {
+            setOption("data-edit");
+        }
     }
 
     function handleSingOut() {}
@@ -35,6 +58,16 @@ export function Profile({}: ProfileProps) {
                     </PhotoButton>
                 </PhotoContainer>
             </Header>
+            <Content>
+                <ContentHeader>
+                    <Option active={option === "data-edit"} onPress={handleOptionChange}>
+                        <OptionTitle active={option === "data-edit"}>Dados</OptionTitle>
+                    </Option>
+                    <Option active={option === "password-edit"} onPress={handleOptionChange}>
+                        <OptionTitle active={option === "password-edit"}>Trocar senha</OptionTitle>
+                    </Option>
+                </ContentHeader>
+            </Content>
         </Container>
     );
 }
