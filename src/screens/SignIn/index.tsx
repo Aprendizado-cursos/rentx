@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Alert, Keyboard, KeyboardAvoidingView, StatusBar, TouchableWithoutFeedback } from "react-native";
 import { useTheme } from "styled-components/native";
+import * as yup from "yup";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { PasswordInput } from "../../components/PasswordInput";
-import * as yup from "yup";
 
-import { Container, Footer, Form, Header, SubTitle, Title } from "./styles";
 import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
 import { useAuth } from "../../hooks/auth";
-import { database } from "../../database";
+import { Container, Footer, Form, Header, SubTitle, Title } from "./styles";
 
 interface SignInProps {}
 
@@ -48,15 +47,6 @@ export function SignIn({}: SignInProps) {
     function handleNewAccount() {
         navigation.navigate("SignUpFirstStep");
     }
-
-    useEffect(() => {
-        async function loadData() {
-            const usersCollection = await database.get("users");
-            const user = await usersCollection.query().fetch();
-            console.log(user);
-        }
-        loadData();
-    }, []);
 
     return (
         <KeyboardAvoidingView behavior="position" enabled>
