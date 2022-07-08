@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useTheme } from "styled-components/native";
 import { BackButton } from "../../components/BackButton";
 import Feather from "@expo/vector-icons/Feather";
+import * as ImagePicker from "expo-image-picker";
 
 import {
     Container,
@@ -28,15 +29,22 @@ import { useAuth } from "../../hooks/auth";
 interface ProfileProps {}
 
 export function Profile({}: ProfileProps) {
+    const { user } = useAuth();
+
     const [option, setOption] = useState<"data-edit" | "password-edit">("data-edit");
+    const [avatar, setAvatar] = useState(user.avatar);
+    const [name, setName] = useState(user.name);
+    const [email, setEmail] = useState(user.email);
+    const [driverLicense, setDriverLicense] = useState(user.driver_license);
 
     const theme = useTheme();
     const navigation = useNavigation<NavigationProp<ParamListBase>>();
-    const { user } = useAuth();
 
     function handleReturn() {
         navigation.goBack();
     }
+
+    function handleSingOut() {}
 
     function handleOptionChange() {
         if (option === "data-edit") {
@@ -46,7 +54,22 @@ export function Profile({}: ProfileProps) {
         }
     }
 
-    function handleSingOut() {}
+    async function handleSelectAvatar() {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 4],
+            quality: 1,
+        });
+
+        if (result.cancelled) {
+            return;
+        }
+
+        if (result.uri) {
+            setAvatar(result.uri);
+        }
+    }
 
     return (
         <KeyboardAvoidingView behavior="position" enabled>
@@ -61,8 +84,8 @@ export function Profile({}: ProfileProps) {
                             </LogoutButton>
                         </HeaderTop>
                         <PhotoContainer>
-                            <Photo source={{ uri: "https://avatars.githubusercontent.com/u/39427966?v=4" }}></Photo>
-                            <PhotoButton onPress={() => {}}>
+                            {!!avatar && <Photo source={{ uri: avatar }}></Photo>}
+                            <PhotoButton onPress={handleSelectAvatar}>
                                 <Feather name="camera" size={24} color={theme.colors.shape}></Feather>
                             </PhotoButton>
                         </PhotoContainer>
@@ -82,13 +105,15 @@ export function Profile({}: ProfileProps) {
                                     iconName="user"
                                     placeholder="Nome"
                                     autoCorrect={false}
-                                    defaultValue={user.name}></Input>
-                                <Input iconName="mail" editable={false} defaultValue={user.email}></Input>
+                                    value={name}
+                                    onChangeText={setName}></Input>
+                                <Input iconName="mail" editable={false} defaultValue={email}></Input>
                                 <Input
                                     iconName="credit-card"
                                     placeholder="CNH"
                                     keyboardType="numeric"
-                                    defaultValue={user.driver_license}></Input>
+                                    value={driverLicense}
+                                    onChangeText={setDriverLicense}></Input>
                             </Section>
                         ) : (
                             <Section>
