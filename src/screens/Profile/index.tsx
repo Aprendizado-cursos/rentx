@@ -29,7 +29,7 @@ import { useAuth } from "../../hooks/auth";
 interface ProfileProps {}
 
 export function Profile({}: ProfileProps) {
-    const { user } = useAuth();
+    const { user, singOut } = useAuth();
 
     const [option, setOption] = useState<"data-edit" | "password-edit">("data-edit");
     const [avatar, setAvatar] = useState(user.avatar);
@@ -43,8 +43,6 @@ export function Profile({}: ProfileProps) {
     function handleReturn() {
         navigation.goBack();
     }
-
-    function handleSingOut() {}
 
     function handleOptionChange() {
         if (option === "data-edit") {
@@ -79,7 +77,7 @@ export function Profile({}: ProfileProps) {
                         <HeaderTop>
                             <BackButton color={theme.colors.shape} onPress={handleReturn}></BackButton>
                             <HeaderTitle>Editar perfil</HeaderTitle>
-                            <LogoutButton onPress={handleSingOut}>
+                            <LogoutButton onPress={singOut}>
                                 <Feather name="power" size={24} color={theme.colors.shape}></Feather>
                             </LogoutButton>
                         </HeaderTop>
